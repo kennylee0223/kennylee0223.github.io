@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>属于我们的四百天</title>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, PingFang SC, "微软雅黑", sans-serif;
+}
+body{
+    background-color: #c7e4ff;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.cloud-wrap{
+    position: absolute;
+    left: 0;
+    transform: translateX(-400px);
+    animation: cloudMove linear infinite;
+    z-index: 2;
+}
+.cloud-bg{
+    position: absolute;
+    background: #ffffff;
+    border-radius: 999px;
+    opacity: 0.85;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.cloud-text{
+    position: relative;
+    text-align: center;
+    color: #2a6fb3;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 3;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+}
+@keyframes cloudMove{
+    0%{transform: translateX(-400px);}
+    100%{transform: translateX(calc(100vw + 400px));}
+}
+.bg-heart{
+    position: absolute;
+    color: #ffb3cc;
+    opacity: 0.6;
+    pointer-events: none;
+    animation: heartFall linear infinite;
+    z-index: 1;
+}
+@keyframes heartFall{
+    0%{
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0;
+    }
+    10%{opacity: 0.6;}
+    90%{opacity: 0.6;}
+    100%{
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+.click-heart{
+    position: absolute;
+    font-size: 26px;
+    color: #ff5e8c;
+    pointer-events: none;
+    animation: heartUp 1s ease-out forwards;
+    z-index: 50;
+}
+@keyframes heartUp{
+    0%{opacity: 1; transform: translateY(0);}
+    100%{opacity: 0; transform: translateY(-200px);}
+}
+.box{
+    width: 90%;
+    max-width: 520px;
+    background: #ffffff;
+    padding: 35px 24px;
+    border-radius: 24px;
+    margin: 0 auto;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    z-index: 100;
+    box-shadow: 0 4px 25px #a6cfee;
+    animation: fadeOut 1s ease-in 15s forwards;
+}
+@keyframes fadeOut{
+    0%{opacity: 1;}
+    100%{opacity: 0; visibility: hidden;}
+}
+h1{
+    color: #1a5cad;
+    font-size: 25px;
+    margin-bottom: 22px;
+    text-align: center;
+}
+.content{
+    color: #0f3352;
+    font-size: 15.5px;
+    line-height: 2;
+}
+.highlight{
+    color: #d94d7c;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+.music-button{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 0;
+    background: #69b6ff;
+    color: #fff;
+    font-size: 20px;
+    z-index: 200;
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://music.163.com/song/media/outer/url?id=2015055006.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-button" id="audioBtn">♪</button>
+
+<div class="box" id="mainText">
+    <h1>属于我们的四百天</h1>
+    <div class="content">
+你说人都是会变的，我认同你的看法，我也跟你讲过，我爱你只会越来越多。
+<br><br>
+爱一个人的方式有很多种，过往我会给你写一大段话告诉你我有多爱你多在乎你，现在我们都变了，但变的不是我不爱你了或者我不在乎你了，而是我向你表达爱的方式不一样了，这次我选择了这种方式来表达我对你的爱。
+<br><br>
+往后还有很长很长的时间，也会有很多很多的纪念日。爱你的心意会一直在，过去我没有给你准备过什么像样的礼物，现在慢慢再存点钱了，向你要多点生活费也是想自己也存点私房钱，可以给老婆买礼物，而不是只把钱全部给老婆，这样平淡的生活我老婆不会喜欢。
+<br><br>
+我知道我老婆想要的是惊喜和偏爱，尽管很多时候我也有很多地方做得不好，但爱是真的爱，就好像那一句歌词一样：
+<br><br>
+<p class="highlight">「说到最爱你，请颁个世一给我」</p>
+    </div>
+</div>
+
+<script>
+const loveWords = [
+    "报告老婆！今日份爱意已全额上交 ♡",
+    "别的小朋友有的偏爱，你全部都有",
+    "偷偷许愿：一辈子赖在你身边不跑路",
+    "我的人生最优解，永远是你",
+    "允许你随便凶我，我绝不还嘴",
+    "四百天只是开场，余生超长续期",
+    "赚钱养家归我，可爱卖萌归你",
+    "全世界限定老婆，仅此一份不补货",
+    "看到你，所有烦心事自动清零",
+    "想和你吃无数顿饭，走无数条小路",
+    "你是我平淡日子里偷偷藏的糖",
+    "生气归生气，又不是不喜欢你了",
+    "今天也超喜欢你，明天也是",
+    "你一皱眉，全世界都得哄你",
+    "攒了好多温柔，全部都给你",
+    "遇见你是我这辈子最欧的一次",
+    "你负责开心就好，剩下的我来",
+    "喜欢你这件事，从来没打过折",
+    "小笨蛋，我怎么舍得真的凶你",
+    "每天醒来第一件事就是想你",
+    "你是我藏在云朵里的小秘密",
+    "脾气随便发，我永远站你这边",
+    "想把全世界的好吃的都喂给你",
+    "四百天快乐，我的宝藏女孩",
+    "你闹脾气的样子，我也觉得可爱",
+    "余生很长，请多指教呀老婆",
+    "我的偏爱和例外，全都是你",
+    "你不用长高，我会为你弯腰",
+    "喜欢你，是我做过最对的选择",
+    "在我这里，你永远可以当小朋友",
+    "你笑起来，比晴天还让人开心",
+    "所有浪漫的事，都想和你做一遍",
+    "你是我疲惫生活里的温柔解药",
+    "今天也爱你，明天也爱你，天天都爱你",
+    "余生漫漫，只喜欢你一人 ♡",
+    "和你在一起，每天都是情人节",
+    "你就是我心中最软的那块地方",
+    "喜欢你没有理由，就是因为是你",
+    "想把你宠成全世界最幸福的人",
+    "你在身边，就是最好的时光",
+    "所有温柔浪漫，我只想给你",
+    "遇见你之后，连风都是甜的",
+    "你是我漫漫人生里的意外惊喜",
+    "愿意陪你长大，也愿意陪你变老",
+    "我的小情绪，只因为你而起",
+    "你就是我想要共度余生的人",
+    "想和你一起看遍世间所有风景",
+    "爱你不是秘密，是我公开的偏爱",
+    "有你在的地方，就是我的家",
+    "往后的每一天，都想和你一起过"
+];
+
+// 15朵云，统一从左侧入场循环
+const TOTAL_CLOUDS = 15;
+function createCloudWithText(delay){
+    setTimeout(function(){
+        let wrap = document.createElement("div");
+        wrap.className = "cloud-wrap";
+        let randomText = loveWords[Math.floor(Math.random() * loveWords.length)];
+        let textLength = randomText.length;
+        let cloudWidth = textLength * 18 + 60;
+        let cloudHeight = cloudWidth * 0.45;
+        
+        let cloud = document.createElement("div");
+        cloud.className = "cloud-bg";
+        cloud.style.width = cloudWidth + "px";
+        cloud.style.height = cloudHeight + "px";
+        
+        let text = document.createElement("div");
+        text.className = "cloud-text";
+        text.innerText = randomText;
+        text.style.fontSize = (textLength > 14 ? 14 : 16) + "px";
+        text.style.padding = cloudHeight * 0.25 + "px 20px";
+        
+        wrap.appendChild(cloud);
+        wrap.appendChild(text);
+        wrap.style.top = Math.random() * 75 + 8 + "%";
+        let duration = Math.random() * 25 + 40;
+        wrap.style.animationDuration = duration + "s";
+        
+        document.body.appendChild(wrap);
+    }, delay);
+}
+for(let i = 0; i < TOTAL_CLOUDS; i++){
+    createCloudWithText(i * 3000);
+}
+
+// 背景飘落爱心
+function createBgHeart(){
+    let heart = document.createElement("div");
+    heart.className = "bg-heart";
+    heart.innerText = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 12 + 10) + "px";
+    let duration = Math.random() * 5 + 8;
+    heart.style.animationDuration = duration + "s";
+    document.body.appendChild(heart);
+    setTimeout(function(){ heart.remove(); }, duration * 1000);
+}
+setInterval(createBgHeart, 800);
+for(let i = 0; i < 8; i++){
+    setTimeout(createBgHeart, i * 300);
+}
+
+// 点击生成大爱心
+document.body.addEventListener("click", function(e){
+    let div = document.createElement("div");
+    div.className = "click-heart";
+    div.textContent = "♥";
+    div.style.left = e.clientX + "px";
+    div.style.top = e.clientY + "px";
+    document.body.appendChild(div);
+    setTimeout(function(){ div.remove(); }, 1000);
+});
+
+// 背景音乐：首次触碰自动播放
+const audio = document.getElementById("bgMusic");
+const audioBtn = document.getElementById("audioBtn");
+let musicStarted = false;
+
+function autoPlayMusic(){
+    if(!musicStarted){
+        audio.play().then(()=>{
+            musicStarted = true;
+            audioBtn.innerText = "🔊";
+        }).catch(()=>{});
+    }
+}
+document.body.addEventListener("touchstart", autoPlayMusic);
+document.body.addEventListener("click", autoPlayMusic);
+
+// 手动开关
+audioBtn.onclick = function(e){
+    e.stopPropagation();
+    if(audio.paused){
+        audio.play();
+        audioBtn.innerText = "🔊";
+        musicStarted = true;
+    }else{
+        audio.pause();
+        audioBtn.innerText = "♪";
+    }
+};
+</script>
+
+</body>
+</html>
