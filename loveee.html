@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>属于我们的四百天</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:PingFang SC,sans-serif;}
+body{
+  width:100vw;height:100vh;overflow:hidden;
+  background: linear-gradient(180deg,#b0ddff,#e0f2ff);
+  position:relative;
+}
+/* 漂浮云朵 */
+.cloud{
+  position:absolute;background:rgba(255,255,255,0.8);
+  border-radius:100px;filter:blur(4px);
+  animation: cloudMove linear infinite;
+}
+@keyframes cloudMove{
+  0%{transform:translateX(-250px);}
+  100%{transform:translateX(calc(100vw + 250px));}
+}
+/* 点击爱心 */
+.heart{
+  position:absolute;font-size:26px;color:#ff78a5;
+  pointer-events:none;animation:heartFly 1s ease-out forwards;
+}
+@keyframes heartFly{
+  0%{opacity:1;transform:translateY(0) scale(1);}
+  100%{opacity:0;transform:translateY(-200px) scale(0.25);}
+}
+/* 情话弹窗 */
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.3);
+  display:none;align-items:center;justify-content:center;z-index:999;
+}
+.modal-box{
+  width:85%;max-width:340px;background:#fff;
+  padding:35px 22px;border-radius:22px;text-align:center;
+}
+.modal-text{
+  font-size:17px;color:#275782;line-height:1.7;margin-bottom:25px;
+}
+.btn-close{
+  border:none;background:#70b8ff;color:#fff;
+  padding:9px 30px;border-radius:30px;font-size:15px;
+}
+/* 主文字区域：纯白色底板+深色大字，绝对看得见 */
+.content-wrap{
+  width:94%;max-width:540px;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:#ffffff;padding:38px 26px;border-radius:28px;
+  text-align:center;box-shadow:0 4px 20px #c2e1f8;
+}
+h1{
+  color:#2266aa;font-size:26px;margin-bottom:22px;
+}
+.text-main{
+  color:#193b57;font-size:16px;line-height:1.95;
+}
+/* 音乐按钮 */
+.music-btn{
+  position:fixed;bottom:28px;right:28px;
+  width:50px;height:50px;border-radius:50%;
+  border:0;background:#70b8ff;color:#fff;font-size:22px;
+}
+</style>
+</head>
+<body>
+<audio id="bgAudio" loop>
+<source src="https://music.163.com/song/media/outer/url?id=1329800014.mp3">
+
+<button class="music-btn" id="audioBtn">♪</button>
+
+<div class="modal" id="popModal">
+  <div class="modal-box">
+    <p class="modal-text" id="tipText"></p>
+    <button class="btn-close" id="hideModal">收下爱意</button>
+  </div>
+</div>
+
+<div class="content-wrap">
+  <h1>属于我们的四百天</h1>
+  <div class="text-main">
+致我全世界最可爱的老婆：
+<br><br>
+一晃已经携手走过四百天啦，说实话有时候真觉得自己运气爆棚，才能捡到你这么温柔又有趣的女孩子。
+<br><br>
+平时总爱跟你拌嘴开玩笑，偶尔故意气你看你鼓鼓腮帮子的样子，不是欺负你，是太喜欢看你所有鲜活可爱的模样。不用时刻完美，撒娇、闹小脾气、贪吃偷懒的你我全都偏爱。
+<br><br>
+往后还有好多个四百天，美食、晚风、琐碎日常我都想和你一起消耗，永远做你的专属出气筒、投喂工具人、随叫随到的依靠。
+<br><br>
+余生漫漫，只喜欢你一人。
+  </div>
+</div>
+
+<script>
+// 10条情话
+const loveWords = [
+"报告老婆！今日份爱意已全额上交",
+"别的小朋友有的偏爱，你全部都有",
+"偷偷许愿：一辈子赖在你身边不跑路",
+"我的人生最优解，永远是你",
+"允许你随便凶我，我绝不还嘴",
+"四百天只是开场，余生超长续期",
+"赚钱养家归我，可爱卖萌归你",
+"全世界限定老婆，仅此一份不补货",
+"看到你，所有烦心事自动清零",
+"想和你吃无数顿饭，走无数条小路"
+];
+// 随机抽取一句
+const randomWord = loveWords[Math.floor(Math.random()*loveWords.length)];
+document.getElementById("tipText").innerText = randomWord;
+const modal = document.getElementById("popModal");
+let isFirst = true;
+
+// 首次点击屏幕弹出弹窗（微信强制要求）
+document.body.addEventListener("touchstart",()=>{
+  if(isFirst){
+    modal.style.display = "flex";
+    isFirst = false;
+  }
+})
+// 关闭弹窗
+document.getElementById("hideModal").onclick = ()=>{
+  modal.style.display = "none";
+}
+
+// 点击任意位置飘落爱心
+document.body.addEventListener("click",(e)=>{
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "♥";
+  heart.style.left = e.clientX + "px";
+  heart.style.top = e.clientY + "px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),1000);
+})
+
+// 背景音乐开关
+const audio = document.getElementById("bgAudio");
+const audioBtn = document.getElementById("audioBtn");
+audioBtn.onclick = ()=>{
+  if(audio.paused){
+    audio.play();
+    audioBtn.innerText = "🔊";
+  }else{
+    audio.pause();
+    audioBtn.innerText = "♪";
+  }
+}
+
+// 自动生成云朵
+function addCloud(){
+  let cloud = document.createElement("div");
+  cloud.className = "cloud";
+  let w = Math.random()*130 + 70;
+  cloud.style.width = w + "px";
+  cloud.style.height = w*0.42 + "px";
+  cloud.style.top = Math.random()*68 + "%";
+  let time = Math.random()*32 + 20;
+  cloud.style.animationDuration = time + "s";
+  document.body.appendChild(cloud);
+  setTimeout(()=>cloud.remove(), time*1000);
+}
+setInterval(addCloud,2300);
+addCloud();
+</script>
+</body>
+</html>
