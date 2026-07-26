@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>属于我们的四百天</title>
+    <!-- 微信浏览器兼容 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "苹方", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(#b8e0ff, #e6f4ff);
+            position: relative;
+        }
+        .cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.75);
+            border-radius: 100px;
+            filter: blur(3px);
+            animation: float linear infinite;
+            will-change: transform;
+        }
+        @keyframes float {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            font-size: 24px;
+            color: #ff8fb3;
+            animation: heartUp 1s ease-out forwards;
+            will-change: transform, opacity;
+        }
+        @keyframes heartUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-180px) scale(0.3); }
+        }
+        .tip-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.35);
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            display: none;
+        }
+        .modal-box {
+            background: #fff;
+            width: 82%;
+            max-width: 360px;
+            padding: 36px 24px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px #a4d4f7;
+        }
+        .modal-text {
+            font-size: 17px;
+            color: #4477aa;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .close-btn {
+            background: #94ccff;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+        }
+        .main-box {
+            position: absolute;
+            width: 90%;
+            max-width: 500px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 30px 20px;
+        }
+        h1 {
+            color: #347bb8;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .text-content {
+            color: #2c587a;
+            line-height: 1.85;
+            font-size: 15px;
+        }
+        .audio-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: none;
+            background: #94ccff;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://music.163.com/song/media/outer/url?id=1329800014.mp3" type="audio/mpeg">
+    
+    <button class="audio-btn" id="musicBtn">♪</button>
+
+    <div class="tip-modal" id="modal">
+        <div class="modal-box">
+            <p class="modal-text" id="randomWord"></p>
+            <button class="close-btn" id="closeModal">收下爱意</button>
+        </div>
+    </div>
+
+    <div class="main-box">
+        <h1>属于我们的四百天</h1>
+        <div class="text-content">
+致我全世界最可爱的老婆：
+<br><br>
+一晃已经携手走过四百天啦，说实话有时候真觉得自己运气爆棚，才能捡到你这么温柔又有趣的女孩子。
+<br><br>
+平时总爱跟你拌嘴开玩笑，偶尔故意气你看你鼓鼓腮帮子的样子，不是欺负你，是太喜欢看你所有鲜活可爱的模样。不用时刻完美，撒娇、闹小脾气、贪吃偷懒的你我全都偏爱。
+<br><br>
+往后还有好多个四百天，美食、晚风、琐碎日常我都想和你一起消耗，永远做你的专属出气筒、投喂工具人、随叫随到的依靠。
+<br><br>
+余生漫漫，只喜欢你一人。
+        </div>
+    </div>
+
+    <script>
+        const wordsList = [
+            "报告老婆！今日份爱意已全额上交",
+            "别的小朋友有的偏爱，你全部都有",
+            "偷偷许愿：一辈子赖在你身边不跑路",
+            "我的人生最优解，永远是你",
+            "允许你随便凶我，我绝不还嘴",
+            "四百天只是开场，余生超长续期",
+            "赚钱养家归我，可爱卖萌归你",
+            "全世界限定老婆，仅此一份不补货",
+            "看到你，所有烦心事自动清零",
+            "想和你吃无数顿饭，走无数条小路"
+        ];
+        const randomText = document.getElementById("randomWord");
+        const modal = document.getElementById("modal");
+        const randomPick = wordsList[Math.floor(Math.random() * wordsList.length)];
+        randomText.innerText = randomPick;
+
+        // 微信兼容：首次点击页面任意位置弹出情话弹窗
+        let firstTap = true;
+        document.body.addEventListener("touchstart", function showModalOnce(){
+            if(firstTap){
+                modal.style.display = "flex";
+                firstTap = false;
+            }
+        }, {once: false});
+
+        document.getElementById("closeModal").addEventListener("click", ()=>{
+            modal.style.display = "none";
+        })
+
+        // 点击生成爱心
+        document.body.addEventListener("click", (e)=>{
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerText = "♥";
+            heart.style.left = e.clientX + "px";
+            heart.style.top = e.clientY + "px";
+            document.body.appendChild(heart);
+            setTimeout(()=> heart.remove(), 1000);
+        })
+
+        // 音乐控制
+        const music = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicBtn");
+        musicBtn.onclick = function(){
+            if(music.paused){
+                music.play();
+                musicBtn.innerText = "🔊";
+            }else{
+                music.pause();
+                musicBtn.innerText = "♪";
+            }
+        }
+
+        // 云朵动画
+        function createCloud(){
+            const cloud = document.createElement("div");
+            cloud.className = "cloud";
+            const w = Math.random() * 120 + 60;
+            cloud.style.width = w + "px";
+            cloud.style.height = w * 0.4 + "px";
+            cloud.style.top = Math.random() * 65 + "vh";
+            const time = Math.random() * 30 + 20;
+            cloud.style.animationDuration = time + "s";
+            document.body.appendChild(cloud);
+            setTimeout(()=> cloud.remove(), time * 1000)
+        }
+        setInterval(createCloud, 2200);
+        createCloud();
+    </script>
+</body>
+</html>
